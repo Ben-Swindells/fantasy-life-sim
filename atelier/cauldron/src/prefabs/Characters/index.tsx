@@ -1,0 +1,1 @@
+export { PlayerCharacterPrefab } from "./PlayerCharacter";
