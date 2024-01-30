@@ -5,7 +5,7 @@ import React from "react";
 export const PotionBottle = () => {
   const { nodes, materials } = useGLTF(Bottle);
   return (
-    <group dispose={null}>
+    <group>
       <mesh
         castShadow
         receiveShadow

@@ -1,7 +1,7 @@
-import { IntroductionLayout } from "./layouts";
+import { PrefabLayout } from "./layouts";
 
 function App() {
-  return <IntroductionLayout />;
+  return <PrefabLayout />;
 }
 
 export default App;

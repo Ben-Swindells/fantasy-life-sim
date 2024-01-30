@@ -6,14 +6,10 @@ type PlayerCharacterProps = {
   scale?: [number, number, number];
 };
 
-export const PlayerCharacterPrefab = ({
-  position,
-  rotation,
-  scale,
-}: PlayerCharacterProps) => {
+export const PlayerCharacterPrefab = () => {
   return (
     <group>
-      <Capsule position={position} rotation={rotation} scale={scale} />
+      <Capsule />
     </group>
   );
 };
