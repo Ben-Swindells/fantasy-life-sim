@@ -8,4 +8,5 @@ export default defineConfig({
     port: 4000,
   },
   plugins: [react()],
+  assetsInclude: ['**/*.glb'],
 })

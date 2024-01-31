@@ -1,1 +1,1 @@
-export { PlayerCharacterPrefab } from "./PlayerCharacter";
+export { PlayerCharacterPrefab } from "./PlayerCharacterPrefab";

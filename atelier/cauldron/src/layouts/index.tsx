@@ -24,7 +24,9 @@ export const PrefabLayout = ({ element }: PrefabLayoutProps) => {
       </Menubar>
       <div className="flex w-full h-full justify-center items-center flex-col">
         <div className="w-3/4 bg-white aspect-video flex">
-          <Canvas shadows="soft">{element}</Canvas>
+          <Canvas shadows="soft">
+            <DefaultScene>{element}</DefaultScene>
+          </Canvas>
         </div>
       </div>
     </div>
