@@ -3,7 +3,7 @@ import Bottle from "../../assets/models/potion-bottle.glb";
 import React from "react";
 
 export const PotionBottle = () => {
-  const { nodes, materials } = useGLTF(Bottle);
+  const { nodes, materials } = useGLTF<GLTF>(Bottle);
   return (
     <group>
       <mesh
