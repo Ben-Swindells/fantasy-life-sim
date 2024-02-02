@@ -9,7 +9,8 @@
     "lint": "turbo lint",
     "test": "turbo test",
     "typecheck": "turbo typecheck",
-    "build:mac": "pnpm run build:mac --filter elixira"
+    "build:mac": "pnpm run build:mac --filter elixira",
+    "build:win": "pnpm run build:win --filter elixira"
   },
   "devDependencies": {
     "@types/jest": "^29.5.4",
@@ -21,5 +22,9 @@
   "bin": {
     "default-template": "../cli.js"
   },
-  "packageManager": "pnpm@8.6.10"
+  "packageManager": "pnpm@8.6.10",
+  "dependencies": {
+    "@react-three/fiber": "^8.15.10",
+    "@react-three/drei": "^9.88.13"
+  }
 }
