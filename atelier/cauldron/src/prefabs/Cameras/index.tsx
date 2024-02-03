@@ -1,0 +1,1 @@
+export { FollowCameraPrefab } from "./FollowCameraPrefab";
