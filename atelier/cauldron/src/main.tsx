@@ -2,14 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App.tsx";
 import "./index.css";
-import {
-  createBrowserRouter,
-  createRoutesFromElements,
-  Route,
-  RouterProvider,
-  Routes,
-  BrowserRouter,
-} from "react-router-dom";
+import { Route, Routes, BrowserRouter } from "react-router-dom";
 import { prefabPages } from "./pages.ts";
 import { PrefabLayout } from "./layouts/index.tsx";
 
@@ -23,7 +16,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
             <Route
               key={index}
               path={page.path}
-              element={<PrefabLayout element={page.component} />}
+              element={<PrefabLayout element={page.scene} />}
             />
           );
         })}
