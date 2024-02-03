@@ -30,9 +30,6 @@
     "tsconfig": "workspace:*",
     "typescript": "^5.0.2",
     "vite": "^4.4.5",
-    "@atelier/recipes": "workspace:*",
-    "@atelier/elements": "workspace:*",
-    "tailwindcss": "^3.3.5",
-    "autoprefixer": "^10.4.16"
+    "@atelier/elements": "workspace:*"
   }
 }

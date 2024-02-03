@@ -1,1 +1,0 @@
-## A place to add code, for example day / night cycles, hitpoint code, anything that does not output visuals, this can be done in the prefabs section or imported directly into the Elixira app.
