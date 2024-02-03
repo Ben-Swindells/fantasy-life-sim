@@ -1,15 +1,15 @@
-import { PotionPrefab } from "./prefabs/Potion";
-import { PlayerCharacterPrefab } from "./prefabs/Characters";
+import { PotionBottleScene } from "./prefabs/Potion";
+import { PlayerCharacterScene } from "./prefabs/Characters";
 
 export const prefabPages = [
   {
     buttonLabel: "Potion bottle",
     path: "/potion-bottle",
-    component: PotionPrefab(),
+    scene: PotionBottleScene(),
   },
   {
     buttonLabel: "Player Character",
     path: "/player-character",
-    component: PlayerCharacterPrefab(),
+    scene: PlayerCharacterScene(),
   },
 ];
