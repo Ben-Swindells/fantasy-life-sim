@@ -1,5 +1,6 @@
 import { PotionBottleScene } from "./prefabs/Potion";
 import { PlayerCharacterScene } from "./prefabs/Characters";
+import { FollowCameraScene } from "./prefabs/Cameras/FollowCameraPrefab";
 
 export const prefabPages = [
   {
@@ -11,5 +12,10 @@ export const prefabPages = [
     buttonLabel: "Player Character",
     path: "/player-character",
     scene: PlayerCharacterScene(),
+  },
+  {
+    buttonLabel: "Follow Camera",
+    path: "/cameras/follow-camera",
+    scene: FollowCameraScene(),
   },
 ];
