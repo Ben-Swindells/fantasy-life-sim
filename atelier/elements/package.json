@@ -10,14 +10,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
     "@types/three": "^0.158.2",
     "three": "^0.158.0",
     "tsconfig": "workspace:*"
-  },
-  "devDependencies": {
-    "@types/react": "^18.2.15",
-    "@types/react-dom": "^18.2.7"
   }
 }

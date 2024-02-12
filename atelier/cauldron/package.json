@@ -12,16 +12,12 @@
   "dependencies": {
     "@types/three": "^0.158.2",
     "postcss": "^8.4.31",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
     "react-router-dom": "^6.20.1",
     "three": "^0.158.0",
     "vite-plugin-ssr": "^0.4.142"
   },
   "devDependencies": {
     "@atelier/elements": "workspace:*",
-    "@types/react": "^18.2.15",
-    "@types/react-dom": "^18.2.7",
     "@typescript-eslint/eslint-plugin": "^6.0.0",
     "@typescript-eslint/parser": "^6.0.0",
     "@vitejs/plugin-react": "^4.0.3",
