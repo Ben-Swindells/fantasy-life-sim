@@ -1,1 +1,1 @@
-export { FollowCameraPrefab } from "./FollowCameraPrefab";
+export { FollowCameraPrefab, FollowCameraScene } from "./FollowCameraPrefab";

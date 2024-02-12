@@ -1,8 +1,6 @@
-import { Stage } from "@react-three/drei";
 import { Menubar, MenubarButton } from "../components/Menubar";
 import { prefabPages } from "../pages";
 import { Canvas } from "@react-three/fiber";
-import { DefaultScene } from "./Scenes";
 
 type PrefabLayoutProps = {
   element: JSX.Element;
