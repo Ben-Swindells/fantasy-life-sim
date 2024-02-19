@@ -6,16 +6,16 @@ export const prefabPages = [
   {
     buttonLabel: "Potion bottle",
     path: "/potion-bottle",
-    scene: PotionBottleScene(),
+    scene: <PotionBottleScene />,
   },
   {
     buttonLabel: "Player Character",
     path: "/player-character",
-    scene: PlayerCharacterScene(),
+    scene: <PlayerCharacterScene />,
   },
   {
     buttonLabel: "Follow Camera",
     path: "/cameras/follow-camera",
-    scene: FollowCameraScene(),
+    scene: <FollowCameraScene />,
   },
 ];
