@@ -8,7 +8,15 @@ enum CharacterControlsList {
   right = "right",
 }
 
-export const CharacterControls = ({ children }: { children: JSX.Element }) => {
+type CharacterControlsProps = {
+  enabled: boolean;
+  children: React.ReactNode;
+};
+
+export const CharacterControls = ({
+  children,
+  enabled,
+}: CharacterControlsProps) => {
   const map = useMemo<KeyboardControlsEntry<CharacterControlsList>[]>(
     () => [
       { name: CharacterControlsList.forward, keys: ["ArrowUp", "KeyW"] },
@@ -18,5 +26,7 @@ export const CharacterControls = ({ children }: { children: JSX.Element }) => {
     ],
     []
   );
-  return <KeyboardControls map={map}>{children}</KeyboardControls>;
+  if (enabled) {
+    return <KeyboardControls map={map}>{children}</KeyboardControls>;
+  }
 };
