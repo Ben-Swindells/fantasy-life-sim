@@ -18,6 +18,8 @@ export const FollowCameraScene = () => {
     <>
       <Box ref={boxRef} />
       <FollowCameraPrefab target={target} distance={10} />
+      <axesHelper args={[1]} />
+      <gridHelper args={[10, 10]} />
     </>
   );
 };
