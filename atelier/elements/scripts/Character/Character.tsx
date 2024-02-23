@@ -3,15 +3,23 @@ import { CharacterMovement } from "./CharacterMovement";
 
 type CharacterProps = {
   isPlayer: boolean;
+  debugMode: boolean;
   children: React.ReactNode;
 };
 
-export const Character = ({ children, isPlayer }: CharacterProps) => {
+export const Character = ({
+  children,
+  isPlayer,
+  debugMode,
+}: CharacterProps) => {
   return (
-    <CharacterControls enabled={isPlayer}>
-      <CharacterMovement speed={5} withControls={isPlayer}>
-        {children}
-      </CharacterMovement>
-    </CharacterControls>
+    <>
+      <axesHelper position={[0, 2, 0]} args={[5]} visible={debugMode} />
+      <CharacterControls enabled={isPlayer}>
+        <CharacterMovement speed={5} withControls={isPlayer}>
+          {children}
+        </CharacterMovement>
+      </CharacterControls>
+    </>
   );
 };

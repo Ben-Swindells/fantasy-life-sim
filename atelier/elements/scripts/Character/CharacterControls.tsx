@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { KeyboardControls, KeyboardControlsEntry } from "@react-three/drei";
 
-enum CharacterControlsList {
+export enum CharacterControlsList {
   forward = "forward",
   back = "back",
   left = "left",
