@@ -23,7 +23,7 @@ export const PrefabLayout = ({ children }: PrefabLayoutProps) => {
         })}
       </Menubar>
       <div className="flex w-full h-full justify-center items-center flex-col">
-        <div className="w-3/4  aspect-video flex shadow-2xl">
+        <div className="w-full h-full">
           <Canvas shadows="soft">
             <Suspense>
               <Physics debug>{children}</Physics>
