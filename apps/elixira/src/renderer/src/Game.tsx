@@ -1,3 +1,4 @@
+import { Suspense } from 'react'
 import { SandboxScene } from './components/scenes'
 import { GameGUI } from './engine/ui'
 import { GameWindow } from './engine/window'
@@ -8,9 +9,11 @@ function Game(): JSX.Element {
     <>
       <GameGUI />
       <GameWindow>
-        <Physics debug={false}>
-          <SandboxScene />
-        </Physics>
+        <Suspense>
+          <Physics debug={false}>
+            <SandboxScene />
+          </Physics>
+        </Suspense>
       </GameWindow>
     </>
   )
