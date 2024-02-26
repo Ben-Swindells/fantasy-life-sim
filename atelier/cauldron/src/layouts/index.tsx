@@ -1,6 +1,8 @@
+import { Suspense } from "react";
 import { Menubar, MenubarButton } from "../components/Menubar";
 import { prefabPages } from "../pages";
 import { Canvas } from "@react-three/fiber";
+import { Physics } from "@react-three/rapier";
 
 type PrefabLayoutProps = {
   children: JSX.Element;
@@ -22,7 +24,11 @@ export const PrefabLayout = ({ children }: PrefabLayoutProps) => {
       </Menubar>
       <div className="flex w-full h-full justify-center items-center flex-col">
         <div className="w-3/4  aspect-video flex shadow-2xl">
-          <Canvas shadows="soft">{children}</Canvas>
+          <Canvas shadows="soft">
+            <Suspense>
+              <Physics debug>{children}</Physics>
+            </Suspense>
+          </Canvas>
         </div>
       </div>
     </div>
