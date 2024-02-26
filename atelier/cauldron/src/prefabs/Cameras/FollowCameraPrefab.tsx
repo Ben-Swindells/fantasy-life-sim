@@ -21,8 +21,12 @@ export const FollowCameraScene = () => {
       <Character debugMode={true} isPlayer={true}>
         <Capsule ref={playerRef} position={[0, 1.5, 0]} />
       </Character>
-      <RigidBody colliders="cuboid" enabledTranslations={[false, false, false]}>
-        <Box position={[0, 0 - 1, 0]} scale={[10, 0.2, 10]} />
+      <RigidBody
+        colliders="cuboid"
+        enabledTranslations={[false, false, false]}
+        enabledRotations={[false, false, false]}
+      >
+        <Box scale={[10, 0.2, 10]} />
       </RigidBody>
       <FollowCameraPrefab target={target} distance={10} />
       <axesHelper args={[1]} />

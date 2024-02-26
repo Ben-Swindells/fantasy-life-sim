@@ -1,8 +1,12 @@
 import { useKeyboardControls } from "@react-three/drei";
 import { CharacterControls, CharacterControlsList } from "./CharacterControls";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useFrame } from "@react-three/fiber";
-import { TrimeshCollider, RigidBody } from "@react-three/rapier";
+import {
+  TrimeshCollider,
+  RapierRigidBody,
+  RigidBody,
+} from "@react-three/rapier";
 
 type CharacterMovementProps = {
   speed: number;
@@ -15,14 +19,16 @@ export const CharacterMovement = ({
   withControls,
   speed,
 }: CharacterMovementProps) => {
+  const characterRigidBody = useRef<RapierRigidBody>(null);
   const [sub, get] = useKeyboardControls<CharacterControlsList>();
 
   useEffect(() => {
     if (!withControls) return;
+    if (!characterRigidBody.current) return;
     return sub(
       (state) => state.forward,
       (pressed) => {
-        console.log("forward", pressed);
+        characterRigidBody.current?.addTorque({ x: 0, y: 0, z: speed }, true);
       }
     );
   });
@@ -33,7 +39,11 @@ export const CharacterMovement = ({
   });
 
   return (
-    <RigidBody colliders="trimesh">
+    <RigidBody
+      ref={characterRigidBody}
+      colliders="trimesh"
+      enabledRotations={[false, false, true]}
+    >
       <group>{children}</group>
     </RigidBody>
   );
