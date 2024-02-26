@@ -5,6 +5,8 @@ export const DefaultScene = ({ children }: { children: React.ReactNode }) => {
     <>
       <ambientLight intensity={1} />
       <OrbitControls minZoom={1} />
+      <axesHelper args={[1]} />
+      <gridHelper />
       <Stage intensity={0} shadows={false}>
         {children}
       </Stage>
