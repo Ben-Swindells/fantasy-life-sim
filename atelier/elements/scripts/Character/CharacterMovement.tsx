@@ -2,6 +2,7 @@ import { useKeyboardControls } from "@react-three/drei";
 import { CharacterControls, CharacterControlsList } from "./CharacterControls";
 import { useEffect } from "react";
 import { useFrame } from "@react-three/fiber";
+import { TrimeshCollider, RigidBody } from "@react-three/rapier";
 
 type CharacterMovementProps = {
   speed: number;
@@ -31,5 +32,9 @@ export const CharacterMovement = ({
     const pressed = get().back;
   });
 
-  return <group>{children}</group>;
+  return (
+    <RigidBody colliders="trimesh">
+      <group>{children}</group>
+    </RigidBody>
+  );
 };
