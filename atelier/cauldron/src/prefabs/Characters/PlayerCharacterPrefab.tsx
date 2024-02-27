@@ -7,7 +7,11 @@ type PlayerCharacterProps = {
 };
 
 export const PlayerCharacterScene = () => {
-  return <PlayerCharacterPrefab />;
+  return (
+    <>
+      <PlayerCharacterPrefab />
+    </>
+  );
 };
 
 export const PlayerCharacterPrefab = () => {
