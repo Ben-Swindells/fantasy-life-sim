@@ -1,0 +1,4 @@
+//@ts-ignore
+{
+  "extends": "tsconfig/base.json"
+}
