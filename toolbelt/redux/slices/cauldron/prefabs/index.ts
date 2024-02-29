@@ -1,11 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 export interface PrefabsState {
-  value: number;
+
 }
 
 const initialState: PrefabsState = {
-  value: 0,
+ 
 };
 
 export const prefabsSlice = createSlice({
