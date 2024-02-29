@@ -5,9 +5,11 @@ import "./index.css";
 import { Route, Routes, BrowserRouter } from "react-router-dom";
 import { prefabPages } from "./pages.tsx";
 import { PrefabLayout } from "./layouts/index.tsx";
+import { Provider } from "react-redux";
+import { store } from "@toolbelt/redux/store.tsx";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
-  <React.StrictMode>
+  <Provider store={store}>
     <BrowserRouter basename="/">
       <Routes>
         <Route path="/" element={<App />} />
@@ -22,5 +24,5 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
         })}
       </Routes>
     </BrowserRouter>
-  </React.StrictMode>
+  </Provider>
 );

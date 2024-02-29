@@ -1,0 +1,4 @@
+//@ts-ignore
+{
+  "extends": "tsconfig/react-app.json"
+}
