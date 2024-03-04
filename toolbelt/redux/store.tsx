@@ -1,11 +1,10 @@
-import { configureStore } from "@reduxjs/toolkit";
-import sceneReducer from "./slices/scenes";
-import prefabsReducer from "./slices/prefabs";
-
+import { combineReducers, configureStore } from "@reduxjs/toolkit";
+import gameReducer from "./slices/game";
+import cauldronReducer from "./slices/cauldron";
 export const store = configureStore({
   reducer: {
-    scenes: sceneReducer,
-    cauldron: { prefabs: prefabsReducer },
+    game: gameReducer,
+    cauldron: cauldronReducer,
   },
 });
 

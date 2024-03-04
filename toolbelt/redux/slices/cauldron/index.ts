@@ -1,19 +1,15 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { combineReducers, createSlice } from "@reduxjs/toolkit";
+import prefabsReducer from "./prefabs";
 
-export interface CauldronState {
-  value: number;
-}
-
-const initialState: CauldronState = {
-  value: 0,
-};
-
-export const cauldronSlice = createSlice({
-  name: "prefabs",
-  initialState,
+// A place to add variables to the cauldron website
+const cauldronSlice = createSlice({
+  name: "cauldron",
+  initialState: {},
   reducers: {},
 });
 
-// Action creators are generated for each case reducer function
-export const {} = cauldronSlice.actions;
-export default cauldronSlice.reducer;
+const rootReducer = combineReducers({
+  prefabs: prefabsReducer,
+});
+
+export default rootReducer;
