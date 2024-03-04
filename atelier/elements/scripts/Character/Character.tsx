@@ -1,6 +1,6 @@
 import { CharacterControls } from "./CharacterControls";
 import { CharacterMovement } from "./CharacterMovement";
-
+import { useId } from "react";
 type CharacterProps = {
   isPlayer: boolean;
   debugMode: boolean;
