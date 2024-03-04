@@ -3,7 +3,7 @@ import charactersReducer from "./Characters";
 
 // A place to add variables for all prefabs
 const prefabsSlice = createSlice({
-  name: "cauldron",
+  name: "prefabs",
   initialState: {},
   reducers: {},
 });
