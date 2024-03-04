@@ -1,19 +1,13 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { combineReducers, createSlice } from "@reduxjs/toolkit";
 
-export interface PrefabsState {
-
-}
-
-const initialState: PrefabsState = {
- 
-};
-
-export const prefabsSlice = createSlice({
-  name: "prefabs",
-  initialState,
+// A place to add variables for all prefabs
+const prefabsSlice = createSlice({
+  name: "cauldron",
+  initialState: {},
   reducers: {},
 });
 
-// Action creators are generated for each case reducer function
-export const {} = prefabsSlice.actions;
-export default prefabsSlice.reducer;
+// Add the prefabs slices to the root reducer, this could include GameObjects, UI, etc.
+const rootReducer = combineReducers({});
+
+export default rootReducer;
