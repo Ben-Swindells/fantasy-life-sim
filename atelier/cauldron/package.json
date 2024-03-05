@@ -26,7 +26,7 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.3",
     "tailwind-config": "workspace:*",
-    "tsconfig": "workspace:*",
+    "@toolbelt/tsconfig": "workspace:toolbelt",
     "@toolbelt/redux": "workspace:*",
     "typescript": "^5.0.2",
     "vite": "^4.4.5"

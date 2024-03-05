@@ -10,8 +10,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@toolbelt/redux": "workspace:toolbelt",
+    "@toolbelt/tsconfig": "workspace:toolbelt",
     "@types/three": "^0.158.2",
-    "three": "^0.158.0",
-    "tsconfig": "workspace:*"
+    "react-redux": "^9.1.0",
+    "three": "^0.158.0"
   }
 }
