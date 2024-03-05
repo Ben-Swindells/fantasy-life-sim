@@ -12,6 +12,6 @@
   "dependencies": {
     "@reduxjs/toolkit": "^2.2.1",
     "typescript": "^5.0.2",
-    "tsconfig": "workspace:*"
+    "@toolbelt/tsconfig": "workspace:toolbelt"
   }
 }
