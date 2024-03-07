@@ -1,7 +1,13 @@
 //@ts-ignore
 {
-  "extends": "tsconfig/react-library.json",
+  "extends": "@toolbelt/tsconfig/react-library.json",
   "compilerOptions": {},
-  
-  "include": ["src/**/*", "next-env.d.ts", "**/*.ts", "**/*.tsx", "declarations.d.ts"],
+
+  "include": [
+    "src/**/*",
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "declarations.d.ts"
+  ]
 }
