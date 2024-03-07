@@ -4,6 +4,8 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addCharacter } from "@toolbelt/redux/slices/cauldron/prefabs/Characters";
 import { v4 as uuid4 } from "uuid";
+import * as THREE from "three";
+
 type CharacterProps = {
   isPlayer: boolean;
   debugMode: boolean;
@@ -22,9 +24,9 @@ export const Character = ({
     addCharacter({
       id,
       transform: {
-        position: { x: 0, y: 0, z: 0 },
-        rotation: { x: 0, y: 0, z: 0 },
-        scale: { x: 1, y: 1, z: 1 },
+        position: new THREE.Vector3(0, 0, 0),
+        rotation: new THREE.Vector3(0, 0, 0),
+        scale: new THREE.Vector3(1, 1, 1),
       },
     })
   );

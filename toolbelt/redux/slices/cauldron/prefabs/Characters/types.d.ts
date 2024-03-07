@@ -1,24 +1,22 @@
+type Vector3 = {
+  [{
+    x: number,
+    y: number,
+    z: number,
+  }];
+};
+
 interface CharactersState {
-  characterList: [];
+  characterList: {
+    [id: string]: CharacterState;
+  };
 }
 
 type CharacterState = {
-  id: number;
+  id: string;
   transform: {
-    position: {
-      x: number;
-      y: number;
-      z: number;
-    };
-    rotation: {
-      x: number;
-      y: number;
-      z: number;
-    };
-    scale: {
-      x: number;
-      y: number;
-      z: number;
-    };
+    position: Vector3;
+    rotation: Vector3;
+    scale: Vector3;
   };
 };
