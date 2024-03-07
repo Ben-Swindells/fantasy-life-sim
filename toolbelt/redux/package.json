@@ -11,7 +11,9 @@
   "license": "ISC",
   "dependencies": {
     "@reduxjs/toolkit": "^2.2.1",
+    "@toolbelt/tsconfig": "workspace:toolbelt",
+    "@types/uuid": "^9.0.8",
     "typescript": "^5.0.2",
-    "@toolbelt/tsconfig": "workspace:toolbelt"
+    "uuid": "^9.0.1"
   }
 }

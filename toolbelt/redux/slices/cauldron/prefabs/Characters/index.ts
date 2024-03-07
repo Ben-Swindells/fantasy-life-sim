@@ -1,7 +1,8 @@
+import { Vector3 } from "@react-three/fiber";
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 const initialState: CharactersState = {
-  characters: [],
+  characterList: [],
 };
 
 export const charactersSlice = createSlice({
@@ -9,17 +10,24 @@ export const charactersSlice = createSlice({
   initialState,
   reducers: {
     addCharacter: (state, action: PayloadAction<CharacterState>) => {
-      state.characters.push(action.payload);
+      const { id } = action.payload;
+      const newCharacter = {
+        id: action.payload,
+      };
+      //@ts-ignore
+      state.characterList.push(newCharacter);
     },
-    removeCharacter: (state, action) => {
-      state.characters = state.characters.filter(
-        (character) => character.id !== action.payload
-      );
-    },
+    updatePosition: (
+      state,
+      action: PayloadAction<{
+        id: string;
+        position: Vector3;
+      }>
+    ) => {},
   },
 });
 
 // Action creators are generated for each case reducer function
-export const {} = charactersSlice.actions;
+export const { addCharacter, updatePosition } = charactersSlice.actions;
 
 export default charactersSlice.reducer;

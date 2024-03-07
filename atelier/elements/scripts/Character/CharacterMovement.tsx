@@ -6,23 +6,30 @@ import {
   TrimeshCollider,
   RapierRigidBody,
   RigidBody,
+  vec3,
 } from "@react-three/rapier";
+import { useDispatch, useSelector } from "react-redux";
+import { updatePosition } from "@toolbelt/redux/slices/cauldron/prefabs/Characters";
 
 type CharacterMovementProps = {
+  id: string;
   speed: number;
   children: React.ReactNode;
   withControls: boolean;
-  getCurrentPosition?: (position: THREE.Vector3) => void;
+  getCurrentPosition: (position: THREE.Vector3) => void;
 };
 
 export const CharacterMovement = ({
+  id,
   children,
   withControls,
   speed,
   getCurrentPosition,
 }: CharacterMovementProps) => {
   const rig = useRef<RapierRigidBody>(null);
+  const character = useRef<THREE.Group>(null);
   const [sub, get] = useKeyboardControls<CharacterControlsList>();
+  const dispatch = useDispatch();
 
   useFrame((state, delta) => {
     if (!withControls) return;
@@ -55,6 +62,9 @@ export const CharacterMovement = ({
     }
     rig.current.applyImpulse(impulse, true);
     rig.current.applyTorqueImpulse(torque, true);
+    dispatch(
+      updatePosition({ id: id, position: vec3(rig.current.translation()) })
+    );
   });
 
   return (

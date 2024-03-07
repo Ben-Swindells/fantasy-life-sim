@@ -19,6 +19,8 @@
   },
   "devDependencies": {
     "@atelier/elements": "workspace:*",
+    "@toolbelt/redux": "workspace:*",
+    "@toolbelt/tsconfig": "workspace:toolbelt",
     "@typescript-eslint/eslint-plugin": "^6.0.0",
     "@typescript-eslint/parser": "^6.0.0",
     "@vitejs/plugin-react": "^4.0.3",
@@ -26,8 +28,6 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.3",
     "tailwind-config": "workspace:*",
-    "@toolbelt/tsconfig": "workspace:toolbelt",
-    "@toolbelt/redux": "workspace:*",
     "typescript": "^5.0.2",
     "vite": "^4.4.5"
   }
