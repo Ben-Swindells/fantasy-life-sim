@@ -1,5 +1,5 @@
 interface CharactersState {
-  characters: CharacterState[];
+  characterList: [];
 }
 
 type CharacterState = {

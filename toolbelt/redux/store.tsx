@@ -1,6 +1,7 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import gameReducer from "./slices/game";
 import cauldronReducer from "./slices/cauldron";
+
 export const store = configureStore({
   reducer: {
     game: gameReducer,
