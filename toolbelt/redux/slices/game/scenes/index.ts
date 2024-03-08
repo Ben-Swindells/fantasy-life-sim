@@ -12,6 +12,8 @@ const scenesSlice = createSlice({
 });
 
 // Add the scenes slices to the root reducer, world 1, world 2, etc.
-const rootReducer = combineReducers({});
+const rootReducer = combineReducers({
+  emptySlice: emptyReducer,
+});
 
 export default rootReducer;
