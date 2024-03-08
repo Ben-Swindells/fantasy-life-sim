@@ -15,7 +15,11 @@ export const FollowCameraScene = () => {
 
   return (
     <>
-      <Character debugMode={true} isPlayer={true}>
+      <Character
+        debugMode={true}
+        isPlayer={true}
+        getId={(id) => console.log(id)}
+      >
         <Capsule ref={playerRef} position={[0, 1.5, 0]} />
       </Character>
       <RigidBody

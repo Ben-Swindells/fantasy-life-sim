@@ -1,6 +1,6 @@
 import { CharacterControls } from "./CharacterControls";
 import { CharacterMovement } from "./CharacterMovement";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addCharacter } from "@toolbelt/redux/slices/cauldron/prefabs/Characters";
 import { v4 as uuid4 } from "uuid";
@@ -10,12 +10,14 @@ type CharacterProps = {
   isPlayer: boolean;
   debugMode: boolean;
   children: React.ReactNode;
+  getId?: (id: string) => void;
 };
 
 export const Character = ({
   children,
   isPlayer,
   debugMode,
+  getId,
 }: CharacterProps) => {
   const [position, setPosition] = useState([0, 0, 0]);
   const dispatch = useDispatch();
@@ -30,6 +32,11 @@ export const Character = ({
       },
     })
   );
+  useEffect(() => {
+    if (getId) {
+      getId(id);
+    }
+  }, []);
   return (
     <>
       <axesHelper position={[0, 2, 0]} args={[5]} visible={debugMode} />

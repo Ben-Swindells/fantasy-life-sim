@@ -1,4 +1,6 @@
-import { PlayerCharacter } from "@atelier/elements/3d/components/Characters";
+import { FollowCamera } from "@atelier/elements/scripts/Cameras/FollowCamera";
+import { Character } from "@atelier/elements/scripts/Character";
+import { Capsule } from "@react-three/drei";
 
 type PlayerCharacterProps = {
   position?: [number, number, number];
@@ -17,7 +19,9 @@ export const PlayerCharacterScene = () => {
 export const PlayerCharacterPrefab = () => {
   return (
     <group>
-      <PlayerCharacter />
+      <Character isPlayer={true} debugMode={true}>
+        <Capsule />
+      </Character>
     </group>
   );
 };
