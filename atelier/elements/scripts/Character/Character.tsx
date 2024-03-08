@@ -7,6 +7,7 @@ import { v4 as uuid4 } from "uuid";
 import * as THREE from "three";
 
 type CharacterProps = {
+  id: string;
   isPlayer: boolean;
   debugMode: boolean;
   children: React.ReactNode;
@@ -14,6 +15,7 @@ type CharacterProps = {
 };
 
 export const Character = ({
+  id,
   children,
   isPlayer,
   debugMode,
@@ -21,22 +23,24 @@ export const Character = ({
 }: CharacterProps) => {
   const [position, setPosition] = useState([0, 0, 0]);
   const dispatch = useDispatch();
-  const id = uuid4();
-  dispatch(
-    addCharacter({
-      id,
-      transform: {
-        position: new THREE.Vector3(0, 0, 0),
-        rotation: new THREE.Vector3(0, 0, 0),
-        scale: new THREE.Vector3(1, 1, 1),
-      },
-    })
+  const characters = useSelector(
+    (state) => state.cauldron.prefabs.characters.characterList
   );
-  useEffect(() => {
-    if (getId) {
-      getId(id);
-    }
-  }, []);
+  if (!characters[id]) {
+    dispatch(
+      addCharacter({
+        id,
+        transform: {
+          position: new THREE.Vector3(0, 0, 0),
+          rotation: new THREE.Vector3(0, 0, 0),
+          scale: new THREE.Vector3(1, 1, 1),
+        },
+      })
+    );
+  }
+
+  if (getId) getId(id);
+
   return (
     <>
       <axesHelper position={[0, 2, 0]} args={[5]} visible={debugMode} />

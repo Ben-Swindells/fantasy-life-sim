@@ -1,4 +1,5 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { RootState } from "../../../../store";
 
 const initialState: CharactersState = {
   characterList: {},
@@ -27,5 +28,10 @@ export const charactersSlice = createSlice({
 
 // Action creators are generated for each case reducer function
 export const { addCharacter, updatePosition } = charactersSlice.actions;
+
+export const findCharacterById = (id: string) => {
+  return (state: RootState) =>
+    state.cauldron.prefabs.characters.characterList[id];
+};
 
 export default charactersSlice.reducer;

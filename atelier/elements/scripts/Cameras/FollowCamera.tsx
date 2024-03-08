@@ -42,6 +42,8 @@ export const FollowCamera = ({ target, distance }: FollowCameraProps) => {
         <OrbitControls
           makeDefault
           ref={controlsRef}
+          minPolarAngle={Math.PI / 4}
+          maxPolarAngle={-Math.PI / 4}
           mouseButtons={{ RIGHT: THREE.MOUSE.ROTATE }}
         />
       </>

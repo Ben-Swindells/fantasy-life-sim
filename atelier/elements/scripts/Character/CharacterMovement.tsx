@@ -68,7 +68,7 @@ export const CharacterMovement = ({
   });
 
   return (
-    <RigidBody ref={rig} colliders="trimesh" lockRotations>
+    <RigidBody ref={rig} type="fixed" colliders="trimesh" lockRotations>
       <group>{children}</group>
     </RigidBody>
   );
