@@ -20,27 +20,34 @@ enum FollowCameraControlsList {
 export const FollowCamera = ({ target, distance }: FollowCameraProps) => {
   const cameraRef = useRef<THREE.PerspectiveCamera | null>(null);
   const controlsRef = useRef<OrbitControlsProps | null>(null);
+  const [smoothedCameraPosition] = useState(() => new THREE.Vector3());
+  const [smoothedCameraTarget] = useState(() => new THREE.Vector3());
 
   useFrame(() => {
     if (cameraRef.current && controlsRef.current) {
       const camera = cameraRef.current;
-      const controls = controlsRef.current;
+      const cameraPosition = new THREE.Vector3();
+      cameraPosition.copy(target);
+      cameraPosition.z += distance;
+      cameraPosition.y += distance / 2;
 
-      camera.lookAt(target);
-      controls.target = target;
+      const cameraTarget = new THREE.Vector3();
+      cameraTarget.copy(target);
+      cameraTarget.y += 0.25;
+
+      smoothedCameraPosition.lerp(cameraPosition, 0.1);
+      smoothedCameraTarget.lerp(cameraTarget, 0.1);
+
+      camera.position.copy(smoothedCameraPosition);
+      camera.lookAt(smoothedCameraTarget);
     }
   });
 
   if (target !== null) {
     return (
       <>
-        <PerspectiveCamera
-          makeDefault
-          ref={cameraRef}
-          position={[target.x, target.y, distance]}
-        />
+        <PerspectiveCamera makeDefault ref={cameraRef} />
         <OrbitControls
-          makeDefault
           ref={controlsRef}
           minPolarAngle={Math.PI / 4}
           maxPolarAngle={-Math.PI / 4}
