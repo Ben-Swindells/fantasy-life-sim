@@ -11,15 +11,16 @@ import { useFrame } from "@react-three/fiber";
 import { findCharacterById } from "@toolbelt/redux/slices/cauldron/prefabs/Characters";
 import { useSelector } from "react-redux";
 import { v4 as uuid4 } from "uuid";
+import { Ground } from "@atelier/elements/scripts/Enviroment/Objects/Ground";
+import { RootState } from "@toolbelt/redux/store";
 
-findCharacterById;
 export const FollowCameraScene = () => {
   const playerRef = useRef<THREE.Mesh>();
   const [characterId, setCharacterId] = useState<string>(uuid4());
   const char = useSelector(
-    (state) => state.cauldron.prefabs.characters.characterList[characterId]
+    (state: RootState) =>
+      state.cauldron.prefabs.characters.characterList[characterId]
   );
-  console.log(char);
 
   return (
     <>
@@ -34,13 +35,10 @@ export const FollowCameraScene = () => {
           <meshStandardMaterial color="red" />
         </Capsule>
       </Character>
-      <RigidBody
-        colliders="cuboid"
-        enabledTranslations={[false, false, false]}
-        enabledRotations={[false, false, false]}
-      >
+      <Ground>
         <Box scale={[10, 0.2, 10]} />
-      </RigidBody>
+      </Ground>
+
       {char && (
         <FollowCameraPrefab target={char.transform.position} distance={20} />
       )}

@@ -18,6 +18,7 @@ type CharacterMovementProps = {
   withControls: boolean;
   getCurrentPosition: (position: THREE.Vector3) => void;
 };
+var canJump = false;
 
 export const CharacterMovement = ({
   id,
@@ -35,13 +36,23 @@ export const CharacterMovement = ({
     if (!withControls) return;
     if (rig.current === null) return;
     // Fetch fresh data from store
-    const { forward, back, left, right } = get();
+    const { forward, back, left, right, jump } = get();
 
     const impulse = { x: 0, y: 0, z: 0 };
     const torque = { x: 0, y: 0, z: 0 };
 
     const impulseStrength = speed * delta * 10;
     const torqueStrength = speed * delta * 10;
+
+    if (jump) {
+      if (canJump) {
+        rig.current.applyImpulse(
+          { x: 0, y: impulseStrength * 100, z: 0 },
+          true
+        );
+        canJump = false;
+      }
+    }
 
     if (forward) {
       impulse.z -= impulseStrength;
@@ -62,13 +73,24 @@ export const CharacterMovement = ({
     }
     rig.current.applyImpulse(impulse, true);
     rig.current.applyTorqueImpulse(torque, true);
+    console.log("canJump", canJump);
     dispatch(
       updatePosition({ id: id, position: vec3(rig.current.translation()) })
     );
   });
 
   return (
-    <RigidBody ref={rig} colliders="trimesh" lockRotations>
+    <RigidBody
+      ref={rig}
+      colliders="trimesh"
+      lockRotations
+      onCollisionEnter={(payload) => {
+        if (payload === undefined) return;
+        if (payload.rigidBodyObject.name === "ground") {
+          canJump = true;
+        }
+      }}
+    >
       <group>{children}</group>
     </RigidBody>
   );

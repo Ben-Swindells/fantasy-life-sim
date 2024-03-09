@@ -6,6 +6,7 @@ export enum CharacterControlsList {
   back = "back",
   left = "left",
   right = "right",
+  jump = "jump",
 }
 
 type CharacterControlsProps = {
@@ -23,6 +24,7 @@ export const CharacterControls = ({
       { name: CharacterControlsList.back, keys: ["ArrowDown", "KeyS"] },
       { name: CharacterControlsList.left, keys: ["ArrowLeft", "KeyA"] },
       { name: CharacterControlsList.right, keys: ["ArrowRight", "KeyD"] },
+      { name: CharacterControlsList.jump, keys: ["Space"] },
     ],
     []
   );
