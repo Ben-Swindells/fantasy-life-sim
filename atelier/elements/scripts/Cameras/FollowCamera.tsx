@@ -5,12 +5,13 @@ import {
 } from "@react-three/drei";
 import * as THREE from "three";
 import { useFrame } from "@react-three/fiber";
-import { useState, useMemo, useRef } from "react";
+import { useState, useMemo, useRef, useEffect } from "react";
 import { KeyboardControls, KeyboardControlsEntry } from "@react-three/drei";
 
 export type FollowCameraProps = {
   target: THREE.Vector3;
   distance: number;
+  getCamera?: (camera: THREE.PerspectiveCamera) => void;
 };
 
 enum FollowCameraControlsList {
@@ -19,13 +20,34 @@ enum FollowCameraControlsList {
 
 export const FollowCamera = ({ target, distance }: FollowCameraProps) => {
   const cameraRef = useRef<THREE.PerspectiveCamera | null>(null);
-  const controlsRef = useRef<OrbitControlsProps | null>(null);
+  const controlsRef = useRef<OrbitControlsProps>(null);
   const [smoothedCameraPosition] = useState(() => new THREE.Vector3());
   const [smoothedCameraTarget] = useState(() => new THREE.Vector3());
+
+  const mouse = new THREE.Vector2();
+  const target2 = new THREE.Vector2();
+
+  useEffect(() => {
+    document.addEventListener("mousemove", (e) => {
+      mouse.x = e.clientX;
+      mouse.y = e.clientY;
+    });
+    if (cameraRef.current && controlsRef.current) {
+      const camera = cameraRef.current;
+      camera.position.set(0, 0, distance);
+    }
+    return () => {
+      document.removeEventListener("mousemove", (e) => {
+        mouse.x = e.clientX;
+        mouse.y = e.clientY;
+      });
+    };
+  }, []);
 
   useFrame(() => {
     if (cameraRef.current && controlsRef.current) {
       const camera = cameraRef.current;
+      const controls = controlsRef.current;
       const cameraPosition = new THREE.Vector3();
       cameraPosition.copy(target);
       cameraPosition.z += distance;
@@ -38,7 +60,6 @@ export const FollowCamera = ({ target, distance }: FollowCameraProps) => {
       smoothedCameraPosition.lerp(cameraPosition, 0.1);
       smoothedCameraTarget.lerp(cameraTarget, 0.1);
 
-      camera.position.copy(smoothedCameraPosition);
       camera.lookAt(smoothedCameraTarget);
     }
   });
@@ -47,11 +68,13 @@ export const FollowCamera = ({ target, distance }: FollowCameraProps) => {
     return (
       <>
         <PerspectiveCamera makeDefault ref={cameraRef} />
+
         <OrbitControls
           ref={controlsRef}
-          minPolarAngle={Math.PI / 4}
-          maxPolarAngle={-Math.PI / 4}
-          mouseButtons={{ RIGHT: THREE.MOUSE.ROTATE }}
+          enableZoom={false}
+          mouseButtons={{
+            RIGHT: THREE.MOUSE.ROTATE,
+          }}
         />
       </>
     );

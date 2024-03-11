@@ -1,6 +1,7 @@
 import { combineReducers, createSlice } from "@reduxjs/toolkit";
 import scenesReducer from "./scenes";
 import settingsReducer from "./settings";
+import worldReducer from "./world";
 // A place to add variables to the game, like settings etc.
 const gameSlice = createSlice({
   name: "game",
@@ -12,6 +13,7 @@ const gameSlice = createSlice({
 const rootReducer = combineReducers({
   scenes: scenesReducer,
   settings: settingsReducer,
+  world: worldReducer,
 });
 
 export default rootReducer;

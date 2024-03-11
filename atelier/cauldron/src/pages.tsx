@@ -13,9 +13,4 @@ export const prefabPages = [
     path: "/player-character",
     scene: <PlayerCharacterScene />,
   },
-  {
-    buttonLabel: "Follow Camera",
-    path: "/cameras/follow-camera",
-    scene: <FollowCameraScene />,
-  },
 ];

@@ -26,7 +26,7 @@ export const PrefabLayout = ({ children }: PrefabLayoutProps) => {
         <div className="w-full h-full">
           <Canvas shadows="soft">
             <Suspense>
-              <Physics debug>{children}</Physics>
+              <Physics>{children}</Physics>
             </Suspense>
           </Canvas>
         </div>

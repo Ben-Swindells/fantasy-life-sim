@@ -12,6 +12,10 @@ type CharacterProps = {
   debugMode: boolean;
   children: React.ReactNode;
   getId?: (id: string) => void;
+  movement?: {
+    cameraDistance: number;
+    speed: number;
+  };
 };
 
 export const Character = ({
@@ -20,6 +24,7 @@ export const Character = ({
   isPlayer,
   debugMode,
   getId,
+  movement,
 }: CharacterProps) => {
   const [position, setPosition] = useState([0, 0, 0]);
   const dispatch = useDispatch();
@@ -43,18 +48,17 @@ export const Character = ({
 
   return (
     <>
-      <axesHelper position={[0, 2, 0]} args={[5]} visible={debugMode} />
       <CharacterControls enabled={isPlayer}>
-        <CharacterMovement
-          id={id}
-          speed={5}
-          withControls={isPlayer}
-          getCurrentPosition={() => {
-            setPosition(position);
-          }}
-        >
-          {children}
-        </CharacterMovement>
+        {isPlayer && movement && (
+          <CharacterMovement
+            id={id}
+            cameraDistance={movement.cameraDistance}
+            speed={movement.speed}
+          >
+            <axesHelper position={[0, 2, 0]} args={[5]} visible={debugMode} />
+            {children}
+          </CharacterMovement>
+        )}
       </CharacterControls>
     </>
   );
