@@ -2,19 +2,20 @@ import { Suspense } from 'react'
 import { SandboxScene } from './components/scenes'
 import { GameGUI } from './engine/ui'
 import { GameWindow } from './engine/window'
-import { Physics } from '@react-three/rapier'
+import { Provider } from 'react-redux'
+import { store } from '../../../../../toolbelt/redux/store'
 
 function Game(): JSX.Element {
   return (
     <>
-      <GameGUI />
-      <GameWindow>
-        <Suspense>
-          <Physics debug={false}>
+      <Provider store={store}>
+        <GameGUI />
+        <GameWindow>
+          <Suspense>
             <SandboxScene />
-          </Physics>
-        </Suspense>
-      </GameWindow>
+          </Suspense>
+        </GameWindow>
+      </Provider>
     </>
   )
 }

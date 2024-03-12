@@ -11,22 +11,10 @@ type PlayerCharacterProps = {
 };
 
 export const PlayerCharacterScene = () => {
-  const playerRef = useRef<THREE.Mesh>();
-  const [characterId, setCharacterId] = useState<string>(uuid4());
   return (
     <>
       <ambientLight />
-      <Character
-        id={characterId}
-        debugMode={true}
-        isPlayer={true}
-        getId={(id) => setCharacterId(id)}
-        movement={{ cameraDistance: 10, speed: 2 }}
-      >
-        <Capsule ref={playerRef} position={[0, 1.5, 0]}>
-          <meshStandardMaterial color="red" />
-        </Capsule>
-      </Character>
+      <PlayerCharacterPrefab />
       <Ground>
         <Box scale={[10, 0.2, 10]} />
       </Ground>
@@ -38,11 +26,19 @@ export const PlayerCharacterScene = () => {
 };
 
 export const PlayerCharacterPrefab = () => {
+  const playerRef = useRef<THREE.Mesh>();
+  const [characterId, setCharacterId] = useState<string>(uuid4());
   return (
-    <group>
-      {/* <Character id={uuid4()} isPlayer={true} debugMode={true}>
-        <Capsule />
-      </Character> */}
-    </group>
+    <Character
+      id={characterId}
+      debugMode={true}
+      isPlayer={true}
+      getId={(id) => setCharacterId(id)}
+      movement={{ cameraDistance: 10, speed: 2 }}
+    >
+      <Capsule ref={playerRef} position={[0, 1.5, 0]}>
+        <meshStandardMaterial color="red" />
+      </Capsule>
+    </Character>
   );
 };

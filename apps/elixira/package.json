@@ -47,6 +47,7 @@
     "typescript": "^5.1.6",
     "vite": "^4.4.9",
     "@toolbelt/tsconfig": "workspace:toolbelt",
-    "@atelier/cauldron": "workspace:atelier"
+    "@atelier/cauldron": "workspace:atelier",
+    "@atelier/elements": "workspace:atelier"
   }
 }
