@@ -6,16 +6,19 @@ import { addCharacter } from "@toolbelt/redux/slices/cauldron/prefabs/Characters
 import { v4 as uuid4 } from "uuid";
 import * as THREE from "three";
 
+export type CharacterMovementProps = {
+  cameraDistance: number;
+  speed: number;
+  jumpStrength: number;
+};
+
 type CharacterProps = {
   id: string;
   isPlayer: boolean;
   debugMode: boolean;
   children: React.ReactNode;
   getId?: (id: string) => void;
-  movement?: {
-    cameraDistance: number;
-    speed: number;
-  };
+  movement?: CharacterMovementProps;
 };
 
 export const Character = ({
@@ -54,6 +57,7 @@ export const Character = ({
             id={id}
             cameraDistance={movement.cameraDistance}
             speed={movement.speed}
+            jumpStrength={movement.jumpStrength}
           >
             <axesHelper position={[0, 2, 0]} args={[5]} visible={debugMode} />
             {children}

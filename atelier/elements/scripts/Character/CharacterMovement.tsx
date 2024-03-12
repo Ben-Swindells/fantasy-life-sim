@@ -18,6 +18,7 @@ type CharacterMovementProps = {
   speed: number;
   children: React.ReactNode;
   cameraDistance: number;
+  jumpStrength: number;
 };
 var canJump = false;
 
@@ -25,6 +26,7 @@ export const CharacterMovement = ({
   id,
   children,
   cameraDistance,
+  jumpStrength,
 }: CharacterMovementProps) => {
   const rig = useRef<RapierRigidBody>(null);
   const character = useRef<THREE.Group>(null);
@@ -36,42 +38,43 @@ export const CharacterMovement = ({
 
   const [smoothedCameraPosition] = useState(() => new THREE.Vector3());
   const [smoothedCameraTarget] = useState(() => new THREE.Vector3());
+  const [cameraPitch, setCameraPitch] = useState(0);
 
-  // Use the useThree hook to access the context provided by React Three Fiber
   const { gl } = useThree();
 
   useEffect(() => {
-    // Directly access the renderer's DOM element (the canvas)
     const canvas = gl.domElement;
+    let rotationX = 0;
+    let rotationY = 0;
+
+    const requestPointerLock = () => {
+      canvas.requestPointerLock();
+    };
 
     const handleMouseMove = (e) => {
-      if (!rig.current && cameraRef.current) return;
-      const camera = cameraRef.current;
-      // Calculate the normalized position here
-      const rect = canvas.getBoundingClientRect();
-      const x = e.clientX - rect.left; // x position within the canvas
-      const y = e.clientY - rect.top; // y position within the canvas
+      if (!rig.current) return;
 
-      // Normalize the coordinates to -1 to 1
-      const normalizedX = (x / rect.width) * 2 - 1;
-      const normalizedY = -(y / rect.height) * 2 + 1;
+      const deltaX = -1 * e.movementX;
+      const deltaY = -1 * e.movementY;
 
-      const maxRotationRadians = Math.PI / 2;
-      const rotationAngle = normalizedX * maxRotationRadians * 2;
+      const sensitivity = 0.002;
+      rotationX += deltaX * sensitivity;
+      rotationY += deltaY * sensitivity;
+
+      rotationY = Math.max(Math.min(rotationY, Math.PI / 4), -Math.PI / 4);
+      setCameraPitch(rotationY);
 
       const quaternion = new THREE.Quaternion();
-
-      rig.current.setRotation(
-        quaternion.setFromAxisAngle(new THREE.Vector3(0, 1, 0), -rotationAngle),
-        true
-      );
+      quaternion.setFromAxisAngle(new THREE.Vector3(0, 1, 0), rotationX);
+      rig.current.setRotation(quaternion, true);
     };
-    // Attach the event listener to the canvas
+    canvas.addEventListener("click", requestPointerLock);
+
     canvas.addEventListener("mousemove", handleMouseMove);
 
     return () => {
-      // Remove the event listener from the canvas when the component unmounts
       canvas.removeEventListener("mousemove", handleMouseMove);
+      canvas.removeEventListener("click", requestPointerLock);
     };
   }, [gl]);
   useFrame((state, delta) => {
@@ -80,13 +83,22 @@ export const CharacterMovement = ({
       const { forward, back, left, right, jump } = get();
 
       const moveDirection = new THREE.Vector3(0, 0, 0);
-      const speed = 2;
+      const speed = 1;
+
+      const velocity = rig.current.linvel();
+
+      const dampingFactor = 0.01; // Adjust this factor to control the damping intensity
+      const dampingForce = {
+        x: -velocity.x * dampingFactor,
+        y: 0, // Usually, you don't want to dampen vertical movement in this manner
+        z: -velocity.z * dampingFactor,
+      };
 
       if (jump && canJump) {
         rig.current.applyImpulse(
           {
             x: 0,
-            y: 10,
+            y: jumpStrength * 10,
             z: 0,
           },
           true
@@ -95,14 +107,13 @@ export const CharacterMovement = ({
         canJump = false;
       }
 
-      if (forward) moveDirection.z += 1; // Moving forward is negative in Three.js
+      if (forward) moveDirection.z += 1;
       if (back) moveDirection.z -= 1;
       if (left) moveDirection.x += 1;
       if (right) moveDirection.x -= 1;
 
       moveDirection.normalize();
 
-      // Assuming this gets the character's current quaternion rotation
       const characterRotation = new THREE.Quaternion(
         rig.current.rotation().x,
         rig.current.rotation().y,
@@ -123,13 +134,23 @@ export const CharacterMovement = ({
       dispatch(
         updatePosition({ id: id, position: vec3(rig.current.translation()) })
       );
+      // Calculate camera vertical offset based on pitch
+      // Adjust these values as needed
+      const pitchFactor = 5; // Determines how much the pitch affects the camera's height
+      const verticalOffset = Math.sin(cameraPitch) * pitchFactor;
 
-      // Camera follows behind the character
-      const cameraDistanceZ = cameraDistance; // Distance behind the character
-      const cameraHeight = cameraDistance; // Height above the character
+      // Update camera's Y-axis distance based on pitch
+      const cameraHeightAdjusted = cameraDistance - verticalOffset; // Adjust the camera height based on pitch
 
-      const cameraOffset = new THREE.Vector3(0, -cameraHeight, cameraDistanceZ);
-      cameraOffset.applyQuaternion(characterRotation); // Apply character's rotation to offset
+      // Original horizontal offset remains the same
+      const horizontalOffsetZ = Math.cos(cameraPitch) * cameraDistance; // Adjust Z based on pitch for depth perception
+
+      const cameraOffset = new THREE.Vector3(
+        0,
+        cameraHeightAdjusted,
+        -horizontalOffsetZ
+      );
+      cameraOffset.applyQuaternion(characterRotation); // Ensure offset follows character orientation
 
       const rigPosition = new THREE.Vector3(
         rig.current.translation().x,
@@ -137,15 +158,22 @@ export const CharacterMovement = ({
         rig.current.translation().z
       );
 
-      // Calculate the final camera position by subtracting the offset
-      // This ensures the camera is positioned behind and above the character
-      const cameraPosition = rigPosition.clone().sub(cameraOffset);
+      // Apply the calculated offset to determine the final camera position
+      const cameraPosition = rigPosition.clone().add(cameraOffset);
 
-      smoothedCameraPosition.lerp(cameraPosition, 0.1); // Smoothly interpolate the camera's position to follow the character
-      smoothedCameraTarget.lerp(rigPosition, 0.1); // Optionally smooth the target position too, for a softer lookAt transition
+      // Interpolate the camera's position for smooth following
+      smoothedCameraPosition.lerp(cameraPosition, 0.05);
+      cameraRef.current.position.copy(smoothedCameraPosition);
 
-      camera.position.copy(smoothedCameraPosition);
-      camera.lookAt(smoothedCameraTarget); // Ensure the camera always points towards the character
+      // Adjust the target based on pitch to ensure the camera looks in the right direction
+      const lookAtHeightAdjustment = 0; // Adjust this to control how much the pitch affects the lookAt position
+      const lookAtPosition = new THREE.Vector3(
+        rigPosition.x,
+        rigPosition.y + lookAtHeightAdjustment + verticalOffset,
+        rigPosition.z
+      );
+      smoothedCameraTarget.lerp(lookAtPosition, 0.05);
+      cameraRef.current.lookAt(smoothedCameraTarget);
     }
   });
   return (
@@ -154,7 +182,8 @@ export const CharacterMovement = ({
         ref={rig}
         colliders="trimesh"
         enabledRotations={[false, false, false]}
-        friction={5}
+        mass={0.5}
+        linearDamping={2}
         onCollisionEnter={(payload) => {
           if (payload === undefined) return;
           if (payload.rigidBodyObject.name === "ground") {
