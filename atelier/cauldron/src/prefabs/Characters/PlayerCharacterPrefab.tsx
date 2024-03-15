@@ -16,12 +16,18 @@ export const PlayerCharacterScene = () => {
   return (
     <>
       <ambientLight />
-      <PlayerCharacterPrefab />
+      <PlayerCharacterPrefab
+        debugMode={true}
+        movement={{
+          cameraDistance: 20,
+          jumpStrength: 5,
+        }}
+      />
       <Ground>
         <Box scale={[10, 0.2, 10]} />
       </Ground>
 
-      <axesHelper args={[1]} />
+      <axesHelper args={[1]} position={[0, 2, 0]} />
       <gridHelper args={[10, 10]} />
     </>
   );
@@ -32,7 +38,7 @@ export const PlayerCharacterPrefab = ({
   movement = {
     cameraDistance: 10,
     speed: 1,
-    jumpStrength: 2.5,
+    jumpStrength: 1,
   },
 }: PlayerCharacterPrefabProps) => {
   const playerRef = useRef<THREE.Mesh>();

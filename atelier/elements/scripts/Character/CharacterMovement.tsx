@@ -51,30 +51,39 @@ export const CharacterMovement = ({
       canvas.requestPointerLock();
     };
 
+    const removePointerLock = () => {
+      document.exitPointerLock();
+    };
+
     const handleMouseMove = (e) => {
       if (!rig.current) return;
 
       const deltaX = -1 * e.movementX;
-      const deltaY = -1 * e.movementY;
 
       const sensitivity = 0.002;
       rotationX += deltaX * sensitivity;
-      rotationY += deltaY * sensitivity;
-
-      rotationY = Math.max(Math.min(rotationY, Math.PI / 4), -Math.PI / 4);
-      setCameraPitch(rotationY);
 
       const quaternion = new THREE.Quaternion();
       quaternion.setFromAxisAngle(new THREE.Vector3(0, 1, 0), rotationX);
       rig.current.setRotation(quaternion, true);
     };
-    canvas.addEventListener("click", requestPointerLock);
-
-    canvas.addEventListener("mousemove", handleMouseMove);
+    canvas.addEventListener("mousedown", (e) => {
+      if (e.button === 2) {
+        requestPointerLock();
+        canvas.addEventListener("mousemove", handleMouseMove);
+      }
+    });
+    canvas.addEventListener("mouseup", (e) => {
+      if (e.button === 2) {
+        removePointerLock();
+        canvas.removeEventListener("mousemove", handleMouseMove);
+      }
+    });
 
     return () => {
       canvas.removeEventListener("mousemove", handleMouseMove);
-      canvas.removeEventListener("click", requestPointerLock);
+      canvas.removeEventListener("mousedown", requestPointerLock);
+      canvas.removeEventListener("mouseup", removePointerLock);
     };
   }, [gl]);
   useFrame((state, delta) => {
@@ -84,15 +93,6 @@ export const CharacterMovement = ({
 
       const moveDirection = new THREE.Vector3(0, 0, 0);
       const speed = 1;
-
-      const velocity = rig.current.linvel();
-
-      const dampingFactor = 0.01; // Adjust this factor to control the damping intensity
-      const dampingForce = {
-        x: -velocity.x * dampingFactor,
-        y: 0, // Usually, you don't want to dampen vertical movement in this manner
-        z: -velocity.z * dampingFactor,
-      };
 
       if (jump && canJump) {
         rig.current.applyImpulse(
@@ -134,20 +134,13 @@ export const CharacterMovement = ({
       dispatch(
         updatePosition({ id: id, position: vec3(rig.current.translation()) })
       );
-      // Calculate camera vertical offset based on pitch
-      // Adjust these values as needed
-      const pitchFactor = 5; // Determines how much the pitch affects the camera's height
-      const verticalOffset = Math.sin(cameraPitch) * pitchFactor;
 
-      // Update camera's Y-axis distance based on pitch
-      const cameraHeightAdjusted = cameraDistance - verticalOffset; // Adjust the camera height based on pitch
-
-      // Original horizontal offset remains the same
-      const horizontalOffsetZ = Math.cos(cameraPitch) * cameraDistance; // Adjust Z based on pitch for depth perception
+      // Adjust cameras position to be forward facing
+      const horizontalOffsetZ = Math.cos(cameraPitch) * cameraDistance;
 
       const cameraOffset = new THREE.Vector3(
         0,
-        cameraHeightAdjusted,
+        cameraDistance,
         -horizontalOffsetZ
       );
       cameraOffset.applyQuaternion(characterRotation); // Ensure offset follows character orientation
@@ -165,11 +158,9 @@ export const CharacterMovement = ({
       smoothedCameraPosition.lerp(cameraPosition, 0.05);
       cameraRef.current.position.copy(smoothedCameraPosition);
 
-      // Adjust the target based on pitch to ensure the camera looks in the right direction
-      const lookAtHeightAdjustment = 0; // Adjust this to control how much the pitch affects the lookAt position
       const lookAtPosition = new THREE.Vector3(
         rigPosition.x,
-        rigPosition.y + lookAtHeightAdjustment + verticalOffset,
+        rigPosition.y,
         rigPosition.z
       );
       smoothedCameraTarget.lerp(lookAtPosition, 0.05);

@@ -24,7 +24,7 @@ export const PrefabLayout = ({ children }: PrefabLayoutProps) => {
       </Menubar>
       <div className="flex w-full h-full justify-center items-center flex-col">
         <div className="w-full h-full">
-          <Canvas shadows="soft" style={{ cursor: "none" }}>
+          <Canvas shadows="soft">
             <Suspense>
               <Physics>{children}</Physics>
             </Suspense>
