@@ -19,14 +19,17 @@ type CharacterMovementProps = {
   children: React.ReactNode;
   cameraDistance: number;
   jumpStrength: number;
+  height: number;
 };
 var canJump = false;
 
-export const CharacterMovement = ({
+export const PlayerMovement = ({
   id,
   children,
   cameraDistance,
   jumpStrength,
+  speed,
+  height,
 }: CharacterMovementProps) => {
   const rig = useRef<RapierRigidBody>(null);
   const character = useRef<THREE.Group>(null);
@@ -92,7 +95,6 @@ export const CharacterMovement = ({
       const { forward, back, left, right, jump } = get();
 
       const moveDirection = new THREE.Vector3(0, 0, 0);
-      const speed = 1;
 
       if (jump && canJump) {
         rig.current.applyImpulse(

@@ -1,6 +1,7 @@
 import {
   Character,
   CharacterMovementProps,
+  CharacterSettingsProps,
 } from "@atelier/elements/scripts/Character";
 import { Capsule, Box } from "@react-three/drei";
 import { v4 as uuid4 } from "uuid";
@@ -10,6 +11,9 @@ import { useRef, useState } from "react";
 type PlayerCharacterPrefabProps = {
   debugMode?: boolean;
   movement?: CharacterMovementProps;
+  settings?: CharacterSettingsProps;
+  isPlayer?: boolean;
+  children?: React.ReactNode;
 };
 
 export const PlayerCharacterScene = () => {
@@ -18,9 +22,11 @@ export const PlayerCharacterScene = () => {
       <ambientLight />
       <PlayerCharacterPrefab
         debugMode={true}
+        isPlayer={true}
         movement={{
           cameraDistance: 20,
           jumpStrength: 5,
+          speed: 2,
         }}
       />
       <Ground>
@@ -35,25 +41,34 @@ export const PlayerCharacterScene = () => {
 
 export const PlayerCharacterPrefab = ({
   debugMode = false,
+  isPlayer = false,
+  settings = {
+    height: 2,
+  },
   movement = {
     cameraDistance: 10,
     speed: 1,
     jumpStrength: 1,
   },
+  children,
 }: PlayerCharacterPrefabProps) => {
-  const playerRef = useRef<THREE.Mesh>();
   const [characterId, setCharacterId] = useState<string>(uuid4());
   return (
     <Character
       id={characterId}
       debugMode={debugMode}
-      isPlayer={true}
+      isPlayer={isPlayer}
       getId={(id) => setCharacterId(id)}
       movement={movement}
+      settings={settings}
     >
-      <Capsule ref={playerRef} position={[0, 1.5, 0]}>
-        <meshStandardMaterial color="red" />
-      </Capsule>
+      {children ? (
+        children
+      ) : (
+        <Capsule position={[0, 1.5, 0]}>
+          <meshStandardMaterial color="red" />
+        </Capsule>
+      )}
     </Character>
   );
 };
